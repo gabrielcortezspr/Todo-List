@@ -3,50 +3,80 @@ package todoList;
 import java.time.LocalDate;
 
 public class Task {
-	
-	private String name;
-	private String description;
-	private LocalDate finalDate;
-	private int priority;
-	private Status status;
-	
-	public Task(String name, String description, LocalDate finalDate, int priority, Status status) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.finalDate = finalDate;
-		this.priority = priority;
-		this.status = status;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public LocalDate getFinalDate() {
-		return finalDate;
-	}
-	public void setFinalDate(LocalDate finalDate) {
-		this.finalDate = finalDate;
-	}
-	public int getPriority() {
-		return priority;
-	}
-	public void setPriority(int priority) {
-		this.priority = priority;
-	}
-	public Status getStatus() {
-		return status;
-	}
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-	
+    private int id;
+    private String nome;
+    private String descricao;
+    private LocalDate dataTermino;
+    private int prioridade; // 1 a 5
+    private String categoria;
+    private Status status; // Enum: TODO, DOING, DONE
+    private int userId; // ID do usuário que criou a tarefa
+
+    public Task(int id, String nome, String descricao, LocalDate dataTermino, int prioridade, String categoria, Status status, int userId) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.dataTermino = dataTermino;
+        this.prioridade = prioridade;
+        this.categoria = categoria;
+        this.status = status;
+        this.userId = userId;
+    }
+
+    // Getters e Setters
+    public int getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public LocalDate getDataTermino() {
+        return dataTermino;
+    }
+
+    public void setDataTermino(LocalDate dataTermino) {
+        this.dataTermino = dataTermino;
+    }
+
+    public int getPrioridade() {
+        return prioridade;
+    }
+
+    public void setPrioridade(int prioridade) {
+        this.prioridade = prioridade;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
 }
