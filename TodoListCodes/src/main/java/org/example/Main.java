@@ -1,4 +1,4 @@
-package todoList;
+package org.example;
 
 public class Main {
 
