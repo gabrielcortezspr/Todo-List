@@ -1,11 +1,9 @@
-package org.example;
+package View;
 
 public class Main {
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		InterfaceUI ui = new InterfaceUI();
+		userInterface ui = new userInterface();
 		ui.start();
 	}
-
 }

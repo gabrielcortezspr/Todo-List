@@ -1,12 +1,18 @@
-package todoList;
+package View;
+
+import Controller.Authenticator;
+import Controller.TaskRepository;
+import Model.Status;
+import Model.Task;
+import Model.User;
 
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Scanner;
 
-public class InterfaceUI {
+public class userInterface {
     private Authenticator authenticator = new Authenticator();
-    private TaskLogic tasklogic = new TaskLogic();
+    private TaskRepository tasklogic = new TaskRepository();
     private User loggedUser;
     private Scanner scanner = new Scanner(System.in);
 
@@ -69,22 +75,22 @@ public class InterfaceUI {
     private void showMainMenu() {
         System.out.println("1 - Criar Tarefa");
         System.out.println("2 - Listar Tarefas");
-        System.out.println("3 - Sair");
+        System.out.println("3 - Deletar Tarefa");
+        System.out.println("4 - Sair");
         int choice = scanner.nextInt();
         scanner.nextLine(); // Limpar buffer
 
         switch (choice) {
             case 1 -> createTask();
             case 2 -> listTasks();
-            case 3 -> System.exit(0);
+            case 3 -> deleteTask();
+            case 4 -> System.exit(0);
             default -> {
                 System.out.println("Opção inválida!");
                 showMainMenu();
-                
             }
         }
     }
-    
 
     // Criar tarefa
     private void createTask() {
@@ -102,10 +108,22 @@ public class InterfaceUI {
         System.out.print("Status (TODO, DOING, DONE): ");
         Status status = Status.valueOf(scanner.nextLine().toUpperCase());
 
-
         Task newTask = new Task(nome, descricao, dataTermino, prioridade, categoria, status, loggedUser.getId());
         tasklogic.addTask(newTask);
         System.out.println("Tarefa criada com sucesso!");
+        showMainMenu();
+    }
+
+    // Deletar tarefa
+    private void deleteTask() {
+        System.out.print("Nome da tarefa a deletar: ");
+        String nome = scanner.nextLine();
+        boolean removed = tasklogic.removeTask(nome);
+        if (removed) {
+            System.out.println("Tarefa removida com sucesso!");
+        } else {
+            System.out.println("Tarefa não encontrada!");
+        }
         showMainMenu();
     }
 
@@ -115,7 +133,7 @@ public class InterfaceUI {
         System.out.println("2 - Listar por Categoria");
         System.out.println("3 - Listar por Prioridade");
         System.out.println("4 - Listar por User Criador");
-        
+
         int choice = scanner.nextInt();
         scanner.nextLine(); // Limpar buffer
 
@@ -124,7 +142,6 @@ public class InterfaceUI {
                 System.out.print("Status (TODO, DOING, DONE): ");
                 Status status = Status.valueOf(scanner.nextLine().toUpperCase());
                 tasklogic.getTasksByStatus(status).forEach(task -> System.out.println(task.getNome()));
-
             }
             case 2 -> {
                 System.out.print("Categoria: ");
@@ -133,16 +150,15 @@ public class InterfaceUI {
             }
             case 3 -> {
                 int userId = loggedUser.getId(); // Obtém o ID do usuário logado
-
                 tasklogic.getTasksByUser(userId)
-                    .stream()
-                    .sorted(Comparator.comparingInt(Task::getPrioridade))
-                    .forEach(task -> 
-                        System.out.println("Prioridade: " + task.getPrioridade() + " | Nome: " + task.getNome())
-                    );
+                        .stream()
+                        .sorted(Comparator.comparingInt(Task::getPrioridade))
+                        .forEach(task ->
+                                System.out.println("Prioridade: " + task.getPrioridade() + " | Nome: " + task.getNome())
+                        );
             }
             case 4 -> {
-            	System.out.print("ID do User: ");
+                System.out.print("ID do User: ");
                 int id = scanner.nextInt();
                 tasklogic.getTasksByUser(id).forEach(task -> System.out.println(task.getNome()));
             }

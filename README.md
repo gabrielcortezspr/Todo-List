@@ -1,5 +1,5 @@
 # Todo-List
-Aplicacao de uma lista To do, feita por Gabriel Cortez
+Aplicacao de uma lista To do, feita por Gabriel Cortez 'teste'
 
 Meu prmeiro projeto aplicado em java, utilizando eclipse e bibliotecas nativas(LocalDate,Comparator e Scanner)
 Comentarios V0.3.0: Aplicacao ainda nao possui persistencia, entao as atividades q voce cria nela nao ficam salvas, em caso de entradas erradas o codigo para de funcionar, em futuras atualizacoes criarei as mudancas necessarias

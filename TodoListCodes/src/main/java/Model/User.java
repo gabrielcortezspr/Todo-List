@@ -1,4 +1,4 @@
-package todoList;
+package Model;
 
 public class User {
     private int id;
