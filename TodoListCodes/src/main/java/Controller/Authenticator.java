@@ -1,5 +1,7 @@
-package todoList;
+package Controller;
 
+
+import Model.User;
 
 public class Authenticator {
     private UserRepository userRepository = new UserRepository();

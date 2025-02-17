@@ -1,4 +1,4 @@
-package todoList;
+package Model;
 
 import java.time.LocalDate;
 

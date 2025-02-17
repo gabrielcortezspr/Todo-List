@@ -1,4 +1,4 @@
-package todoList;
+package Model;
 
 public enum Status {
 	TODO,
