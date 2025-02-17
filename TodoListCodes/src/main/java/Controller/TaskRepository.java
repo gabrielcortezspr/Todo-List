@@ -68,4 +68,17 @@ public class TaskRepository {
     private void rebalanceTasks() {
         listTasks.sort(Comparator.comparingInt(Task::getPrioridade));
     }
+
+    // Método para verificar se algum alarme de tarefa deve ser disparado
+    public void checkAlarms() {
+        for (Task task : listTasks) {
+            if (task.shouldTriggerAlarm()) {
+                triggerAlarm(task);
+            }
+        }
+    }
+
+    private void triggerAlarm(Task task) {
+        System.out.println("Alerta! A tarefa '" + task.getNome() + "' com prazo " + task.getDataTermino() + " está com o alarme ativado!");
+    }
 }
