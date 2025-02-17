@@ -1,26 +1,37 @@
 package Model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Task {
-	
-    private String nome;
-    private String descricao;
-    private LocalDate dataTermino;
-    private int prioridade; // 1 a 5
-    private String categoria;
-    private Status status; // Enum: TODO, DOING, DONE
-    private int userId; // ID do usuário que criou a tarefa
 
-    public Task(String nome, String descricao, LocalDate dataTermino, int prioridade, String categoria, Status status, int userId) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.dataTermino = dataTermino;
-        this.prioridade = prioridade;
-        this.categoria = categoria;
-        this.status = status;
-        this.userId = userId;
-    }
+	private String nome;
+	private String descricao;
+	private LocalDate dataTermino;
+	private int prioridade; // 1 a 5
+	private String categoria;
+	private Status status; // Enum: TODO, DOING, DONE
+	private int userId; // ID do usuário que criou a tarefa
+	private LocalDateTime alarme; // Data e hora do alarme
+
+	public Task(String nome, String descricao, LocalDate dataTermino, int prioridade, String categoria, Status status, int userId, LocalDateTime alarme) {
+		this.nome = nome;
+		this.descricao = descricao;
+		this.dataTermino = dataTermino;
+		this.prioridade = prioridade;
+		this.categoria = categoria;
+		this.status = status;
+		this.userId = userId;
+		this.alarme = alarme;
+	}
+
+	public LocalDateTime getAlarme() {
+		return alarme;
+	}
+
+	public void setAlarme(LocalDateTime alarme) {
+		this.alarme = alarme;
+	}
 
 	public String getNome() {
 		return nome;
@@ -78,6 +89,12 @@ public class Task {
 		this.userId = userId;
 	}
 
-    // Getters e Setters
+	public boolean shouldTriggerAlarm() {
+		if (alarme != null) {
+			LocalDateTime now = LocalDateTime.now();
+			return !now.isBefore(alarme) && now.isEqual(alarme);
+		}
+		return false;
+	}
 
 }

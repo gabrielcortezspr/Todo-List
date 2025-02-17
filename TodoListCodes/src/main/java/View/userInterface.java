@@ -7,18 +7,40 @@ import Model.Task;
 import Model.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Scanner;
+import java.util.concurrent.*;
+//comentando so de raiva
 
 public class userInterface {
+    private ScheduledExecutorService scheduler;
     private Authenticator authenticator = new Authenticator();
     private TaskRepository tasklogic = new TaskRepository();
     private User loggedUser;
     private Scanner scanner = new Scanner(System.in);
 
-    // Iniciar aplicação
+    private void startAlarmScheduler() {
+        scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(() -> checkAlarms(), 0, 1, TimeUnit.SECONDS);
+    }
+
+    private void checkAlarms() {
+        for (Task task : tasklogic.getAllTasks()) {
+            if (task.shouldTriggerAlarm()) {
+                triggerAlarm(task);
+            }
+        }
+    }
+
+    private void triggerAlarm(Task task) {
+        System.out.println("ALERTA! O alarme da tarefa '" + task.getNome() + "' foi disparado!");
+        // Aqui você pode adicionar código para tocar um som ou exibir uma notificação
+    }
+
     public void start() {
         System.out.println("Bem-vindo ao TODO List!");
+        startAlarmScheduler();  // Inicia o agendador de alarmes
         showLoginMenu();
     }
 
@@ -92,7 +114,6 @@ public class userInterface {
         }
     }
 
-    // Criar tarefa
     private void createTask() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
@@ -108,7 +129,16 @@ public class userInterface {
         System.out.print("Status (TODO, DOING, DONE): ");
         Status status = Status.valueOf(scanner.nextLine().toUpperCase());
 
-        Task newTask = new Task(nome, descricao, dataTermino, prioridade, categoria, status, loggedUser.getId());
+        // Perguntar sobre o alarme
+        System.out.print("Deseja configurar um alarme para esta tarefa? (s/n): ");
+        String alarmeChoice = scanner.nextLine();
+        LocalDateTime alarme = null;
+        if (alarmeChoice.equalsIgnoreCase("s")) {
+            System.out.print("Data e hora do alarme (yyyy-MM-ddTHH:mm): ");
+            alarme = LocalDateTime.parse(scanner.nextLine());
+        }
+
+        Task newTask = new Task(nome, descricao, dataTermino, prioridade, categoria, status, loggedUser.getId(), alarme);
         tasklogic.addTask(newTask);
         System.out.println("Tarefa criada com sucesso!");
         showMainMenu();
@@ -127,7 +157,6 @@ public class userInterface {
         showMainMenu();
     }
 
-    // Listar tarefas
     private void listTasks() {
         System.out.println("1 - Listar por Status");
         System.out.println("2 - Listar por Categoria");
@@ -141,26 +170,24 @@ public class userInterface {
             case 1 -> {
                 System.out.print("Status (TODO, DOING, DONE): ");
                 Status status = Status.valueOf(scanner.nextLine().toUpperCase());
-                tasklogic.getTasksByStatus(status).forEach(task -> System.out.println(task.getNome()));
+                tasklogic.getTasksByStatus(status).forEach(this::printTaskDetails);
             }
             case 2 -> {
                 System.out.print("Categoria: ");
                 String categoria = scanner.nextLine();
-                tasklogic.getTasksByCategory(categoria).forEach(task -> System.out.println(task.getNome()));
+                tasklogic.getTasksByCategory(categoria).forEach(this::printTaskDetails);
             }
             case 3 -> {
                 int userId = loggedUser.getId(); // Obtém o ID do usuário logado
                 tasklogic.getTasksByUser(userId)
                         .stream()
                         .sorted(Comparator.comparingInt(Task::getPrioridade))
-                        .forEach(task ->
-                                System.out.println("Prioridade: " + task.getPrioridade() + " | Nome: " + task.getNome())
-                        );
+                        .forEach(this::printTaskDetails);
             }
             case 4 -> {
                 System.out.print("ID do User: ");
                 int id = scanner.nextInt();
-                tasklogic.getTasksByUser(id).forEach(task -> System.out.println(task.getNome()));
+                tasklogic.getTasksByUser(id).forEach(this::printTaskDetails);
             }
             default -> {
                 System.out.println("Opção inválida!");
@@ -168,5 +195,17 @@ public class userInterface {
             }
         }
         showMainMenu();
+    }
+
+    private void printTaskDetails(Task task) {
+        System.out.println("Nome: " + task.getNome());
+        System.out.println("Prioridade: " + task.getPrioridade());
+        System.out.println("Status: " + task.getStatus());
+        System.out.println("Data de término: " + task.getDataTermino());
+        if (task.getAlarme() != null) {
+            System.out.println("Alarme: " + task.getAlarme());
+        } else {
+            System.out.println("Sem alarme configurado.");
+        }
     }
 }
