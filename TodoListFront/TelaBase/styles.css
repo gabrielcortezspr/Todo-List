@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+}
+
+button {
+    padding: 8px 12px;
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.task-row-container {
+    width: 80%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#taskContainer {
+    display: flex;
+    gap: 20px; /* Espaçamento maior entre os cards */
+    flex-wrap: nowrap;
+}
+
+.selectStyle{
+    max-width: 100px;
+}
+
+.task-card {
+    background: white;
+    padding: 20px; /* Aumentei o espaçamento interno */
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Deixei mais largo */
+    min-height: 120px; /* Evita que fique quadrado */
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+.task-card p {
+    margin: 5px 0;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete {
+    background: #dc3545;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.edit {
+    background: #ffc107;
+    color: black;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+}

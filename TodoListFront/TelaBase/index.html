@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Gerenciador de Tarefas</h2>
+        <form id="taskForm">
+            <input type="text" id="taskName" placeholder="Nome da tarefa" required>
+            <input type="datetime-local" id="taskDateTime" required>
+            <select id="taskPriority">
+                <option value="1">UM</option>
+                <option value="2">DOIS</option>
+                <option value="3">TRES</option>
+                <option value="4">QUATRO</option>
+                <option value="5">CINCO</option>
+            </select>
+            <select id="taskStatus">
+                <option value="TODO">TODO</option>
+                <option value="DOING">DOING</option>
+                <option value="DONE">DONE</option>
+            </select>
+            <input type="text" id="taskCategory" placeholder="Categoria (Opcional)">
+            <textarea id="taskDescription" placeholder="Descrição (Opcional)"></textarea>
+            <button type="submit">Criar Tarefa</button>
+        </form>
+    </div>
+
+    <h3 style="text-align: center;">Tarefas Criadas</h3>
+    <div class="task-row-container">
+        <div id="taskContainer"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
